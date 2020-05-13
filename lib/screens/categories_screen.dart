@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertodolistsqfliteapp/models/category.dart';
+import 'package:fluttertodolistsqfliteapp/services/category_service.dart';
 
 import 'home_screen.dart';
 
@@ -12,6 +14,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   var _categoryNameController = TextEditingController();
   var _categoryDescriptionController = TextEditingController();
 
+  var _category = Category();
+  var _categoryService = CategoryService();
+
   _showFormDialog(BuildContext context){
     return showDialog(context: context, barrierDismissible: true, builder: (params) {
       return AlertDialog(
@@ -23,8 +28,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ),
           FlatButton(
             onPressed: (){
-              print('category ${_categoryNameController.text}');
-              print('description ${_categoryDescriptionController.text}');
+              _category.name = _categoryNameController.text;
+              _category.description = _categoryDescriptionController.text;
+
+              _categoryService.saveCategory(_category);
             },
             color: Colors.green[800],
             child: Text('Save'),
